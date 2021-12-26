@@ -1,3 +1,7 @@
+package ds.trees.basics;
+
+import java.util.Stack;
+
 class Node {
 	int key;
 	Node left, right;
