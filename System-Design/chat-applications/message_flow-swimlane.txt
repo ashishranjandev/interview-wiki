@@ -1,0 +1,16 @@
+title: Chat - Message Flow
+
+
+User A -> Chat Server 1: Chat Message
+
+Chat Server 1 -> ID Generator: Get message Id 
+
+Chat Server 1 -> Message Sync Queue: send message
+
+Message Sync Queue -> KV Store: Save Message
+
+Message Sync Queue -> Push notification Servers: If user is offline 
+
+Message Sync Queue -> Chat Server 2: If user is online
+
+Chat Server 2 -> User B: forwards message using persistent web socket

@@ -1,0 +1,14 @@
+title: Chat - Service Discovery
+
+
+User A -> Load Balancer: Log in
+
+Load Balancer -> API Servers: Log in
+
+API Servers -> API Servers: Authenticate
+
+API Servers -> Service Discovery: Finds the best chat serveer for User A 
+
+Service Discovery -> User A: Server 2 is chosen and returned to User A 
+
+User A -> Chat Server 2: Connects using web socket
