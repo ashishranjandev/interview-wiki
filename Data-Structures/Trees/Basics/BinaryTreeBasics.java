@@ -72,6 +72,78 @@ public class BinaryTreeBasics {
         }
 
     }
+    
+    void printIterativePostOrderUsingTwoStacks(Node node) {
+        if (node != null) {
+            Stack<Node> nodeStack1 = new Stack<>();
+            Stack<Integer> nodeStack2 = new Stack<>();
+            Node current;
+            nodeStack1.push(node);
+            while (nodeStack1.size() > 0) {
+                current = nodeStack1.pop();
+                nodeStack2.push(current.key);
+                if (current != null) {
+                    if (current.left != null) {
+                        nodeStack1.push(current.left);
+                    }
+                    if (current.right != null) {
+                        nodeStack1.push(current.right);
+                    }
+                }
+            }
+            while(!nodeStack2.isEmpty()) {
+                System.out.print(nodeStack2.pop() + " ");
+            }
+        }
+    }
+    
+    /**
+     * 1. Put the root in the stack
+     * 2. Run the loop till stack is not empty and current is not null
+     * 2.1 While current left exists
+     *        keep pushing them in stack
+     * 2.2 We have reached here .. means current is null i.e. no left subtree to traverse
+     *        If Stack is not empty ->
+     *          If stack's top has right child
+     *              Make that as current
+     *          else
+     *              Pop the top of Stack -> Print it
+     *              while the popped element is the right of element on top of stack
+     *                  Keep popping from the stack and keep Printing them
+     *                  (as there is nothing left to traverse for those nodes)
+     *
+     * @param node
+     */
+    void printIterativePostOrderUsingOneStack(Node node) {
+        Stack<Node> nodeStack = new Stack<>();
+        Node curr = node;
+
+        // Loop will run till current becomes null and stack becomes empty
+        while (curr != null || !nodeStack.isEmpty()) {
+            // Till left is not null -> Keep pushing them to the stack
+            while (curr != null) {
+                nodeStack.push(curr);
+                curr = curr.left;
+            }
+
+            if (!nodeStack.isEmpty()) {
+                //check if stack top has right child - Don't pop it from stack - make current as right
+                if (nodeStack.peek().right != null) {
+                    curr = nodeStack.peek().right;
+                } else {
+                    // if top does not have a right child - pop it from stack
+                    Node temp = nodeStack.pop();
+                    System.out.print(temp.key + " ");
+                    // We check if the popped item was right child of the previous item in stack.
+                    // If yes -> We need to visit it
+                    while (nodeStack.size() > 0 && nodeStack.peek().right == temp) {
+                        temp = nodeStack.pop();
+                        System.out.print(temp.key + " ");
+                    }
+                }
+            }
+        }
+    }
 
     public static void main(String[] args) {
         BinaryTreeBasics tree = new BinaryTreeBasics();
@@ -97,9 +169,14 @@ public class BinaryTreeBasics {
         System.out.println("\nIterative DFS In order traversal of binary tree is ");
         tree.printIterativeInOrder(tree.root);
 
-        //TODO Iterative Post Order
+        System.out.println("\nIterative DFS In order traversal of binary tree is ");
+        tree.printIterativePostOrder(tree.root);
 
+        System.out.println("\nIterative DFS Post order traversal of binary tree 2 stack is ");
+        tree.printIterativePostOrderUsingTwoStacks(tree.root);
         
+        System.out.println("\nIterative DFS Post order traversal of binary tree using 1 stack is ");
+        tree.printIterativePostOrderUsingOneStack(tree.root);
     }
 
 }
