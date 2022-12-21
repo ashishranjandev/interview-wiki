@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CombinationSum {
+public class RecursionTask4CombinationSum {
 
     public static void main (String[] args) {
         int[] candidates = new int[3];
@@ -12,7 +12,7 @@ public class CombinationSum {
         candidates[1] = 3;
         candidates[2] = 5;
 
-        CombinationSum cs = new CombinationSum();
+        RecursionTask4CombinationSum cs = new RecursionTask4CombinationSum();
         System.out.println(cs.combinationSum(candidates, 8).toString());
 
         candidates = new int[5];
@@ -101,7 +101,12 @@ public class CombinationSum {
         }
 
         for (int i = ind; i < arr.length; i++) {
+            // If the element is same as previous element the result
+            // result would be same. Hence skipping
             if (i > ind && arr[i] == arr[i - 1]) continue;
+
+            // If the element is already greater than target
+            // No need to continue the queue
             if (arr[i] > target) break;
 
             ds.add(arr[i]);
