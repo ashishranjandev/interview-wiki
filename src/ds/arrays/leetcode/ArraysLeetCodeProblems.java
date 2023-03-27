@@ -99,30 +99,6 @@ public class ArraysLeetCodeProblems {
             System.out.print(num + " ");
         }
 
-        System.out.println();
-        // Input: nums = [4,5,6,7,0,1,2], target = 0
-        // Output: 4
-        nums = new int[7];
-        nums[0] = 4;
-        nums[1] = 5;
-        nums[2] = 6;
-        nums[3] = 7;
-        nums[4] = 0;
-        nums[5] = 1;
-        nums[6] = 2;
-        int answerInt = arraysLeetCodeProblems.search(nums, 0);
-        System.out.print("Solution for Search in rotated array for [4,5,6,7,0,1,2] with target 0 is - " + answerInt);
-
-        System.out.println();
-        // Input: nums = [4,5,6,7,0,1,2], target = 0
-        // Output: 4
-        nums = new int[3];
-        nums[0] = 5;
-        nums[1] = 1;
-        nums[2] = 3;
-        answerInt = arraysLeetCodeProblems.search(nums, 5);
-        System.out.print("Solution for Search in rotated array for [5,1,3] with target 5 is - " + answerInt);
-
     }
 
     public int[] topKFrequent(int[] nums, int k) {
@@ -210,72 +186,4 @@ public class ArraysLeetCodeProblems {
         return  setLength;
     }
 
-    /**
-     * Searching in rotated array
-     *
-     * @see https://leetcode.com/problems/search-in-rotated-sorted-array
-     *
-     * We can still use binary search however with addtional checks.
-     *
-     * 1. First we have to identify if mid is in left sorted array or right sorted array
-     *  e.g. in [4,5,6,7,0,1,2] 4,5,6,7 is left sorted array and 0,1,2 is right sorted array
-     *
-     *  How to identity??
-     *  If number on left is smaller than mid -> we are in left sorted array
-     *  else we are in right sorted array
-     *
-     *  If we are in left sorted array
-     *   If target is larger than mid OR target is smaller than left
-     *      Go LEFT
-     *   Else
-     *      Go RIGHT
-     *
-     * Else (If we are in right sorted array)
-     *   If target is smaller than mid OR target is larger than right
-     *      Go LEFT
-     *   Else
-     *      Go RIGHT
-     *
-     *
-     * @see https://www.youtube.com/watch?v=U8XENwh8Oy8 for video explanation
-     *
-     * @param nums
-     * @param target
-     * @return
-     */
-    public int search(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return -1;
-        }
-        int left = 0;
-        int mid = 0;
-        int right = nums.length - 1;
-
-        while (left <= right) {
-            mid = (left + right)/ 2;
-            if (nums[mid] == target) {
-                return mid;
-            }
-            if (nums[left] <= nums[mid]) {
-                // We are in left sorted array
-                if (target > nums[mid] || target < nums[left]) {
-                    // Search in right part
-                    left = mid + 1;
-                } else {
-                    // Search in left part
-                    right = mid - 1;
-                }
-            } else {
-                // We are in right sorted array
-                if (target < nums[mid] || target > nums[right]) {
-                    // Search in left part
-                    right = mid - 1;
-                } else {
-                    // Search in left part
-                    left = mid + 1;
-                }
-            }
-        }
-        return -1;
-    }
 }
