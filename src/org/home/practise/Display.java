@@ -3,8 +3,22 @@ package org.home.practise;
 public class Display {
 
     public static void main (String[] args) {
-        printSeries0_3_8_15();
-        printSeries1_2_5_10_17_26();
+        //printSeries0_3_8_15();
+        //printSeries1_2_5_10_17_26();
+        //print_1by2_1by4_1by6();
+
+        int a = 2;
+        int b = 3, c = 3;
+        System.out.println(a - (b++) * (--c));
+    }
+
+
+    public static void print_1by2_1by4_1by6() {
+        double sum = 0.0;
+        for (int i = 2; i <= 20; i = i+ 2) {
+            sum = sum + (1.0 / i) ;
+        }
+        System.out.println("Sum is " + sum);
     }
 
     public static void printSeries0_3_8_15() {

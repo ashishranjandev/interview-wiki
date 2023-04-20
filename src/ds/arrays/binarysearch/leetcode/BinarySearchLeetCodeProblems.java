@@ -1,5 +1,7 @@
 package ds.arrays.binarysearch.leetcode;
 
+import java.util.Arrays;
+
 /**
  *
  * Type 1 (Some ad-hoc Binary Search Problems)
@@ -57,6 +59,8 @@ package ds.arrays.binarysearch.leetcode;
  * @author Ashish Ranjan
  */
 public class BinarySearchLeetCodeProblems {
+
+    private int badVersion;
 
     public static void main(String...args) {
         BinarySearchLeetCodeProblems binarySearchLeetCodeProblems = new BinarySearchLeetCodeProblems();
@@ -135,6 +139,120 @@ public class BinarySearchLeetCodeProblems {
         nums[3] = 17;
         answerInt = binarySearchLeetCodeProblems.findMin(nums);
         System.out.print("Solution for min in rotated array [11,13,15,17] is - " + answerInt);
+
+        System.out.println();
+        nums = new int[3];
+        nums[0] = 805306368;
+        nums[1] = 805306368;
+        nums[2] = 805306368;
+        answerInt = binarySearchLeetCodeProblems.minEatingSpeed(nums, 1000000000);
+        System.out.print(
+                "Solution for min bananas to eat in for piles [805306368,805306368,805306368] to finish in  1000000000 is " +
+                        answerInt);
+
+        System.out.println();
+        binarySearchLeetCodeProblems.badVersion = 4;
+        System.out.println("First bad version - " + binarySearchLeetCodeProblems.firstBadVersion(5));
+        binarySearchLeetCodeProblems.badVersion = 1;
+        System.out.println("First bad version - " + binarySearchLeetCodeProblems.firstBadVersion(1));
+
+        System.out.println("");
+        //System.out.println(binarySearchLeetCodeProblems.checkInclusion("adc", "dcda"));
+        //System.out.println(binarySearchLeetCodeProblems.checkInclusion("ab", "eidbaooo"));
+        System.out.println(binarySearchLeetCodeProblems.checkInclusion("ab", "eidboaoo"));    }
+
+
+    public int firstBadVersion(int n) {
+        int left = 1;
+        int right = n;
+        int mid = 1;
+        int maxGoodVersion = 0;
+
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (isBadVersion(mid)) {
+                right = mid - 1;
+            } else {
+                maxGoodVersion = ( mid > maxGoodVersion ) ?  mid :  maxGoodVersion;
+                left = mid + 1 ;
+            }
+        }
+        return maxGoodVersion;
+    }
+
+    private boolean isBadVersion(int i) {
+        return i > this.badVersion;
+    }
+
+    public int hIndex(int[] citations) {
+        int left = 0;
+        int right = citations.length - 1;
+        int mid = 0;
+        int hIndex = 0;
+
+            while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (citations[mid] == citations.length - mid) {
+                return citations[mid];
+            }
+            if (citations[mid] > citations.length - mid) {
+                hIndex = (mid > hIndex) ? mid : hIndex;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+            return citations.length - left;
+    }
+
+    public boolean checkInclusion(String s1, String s2) {
+        if (s2.length() < s1.length()) {
+            return false;
+        }
+        int[] s1Map = new int[26];
+        int[] s2Map = new int[26];
+
+        for (int i = 0; i < s1.length() ; i++) {
+            s1Map[s1.charAt(i) - 97]++;
+            s2Map[s2.charAt(i) - 97]++;
+        }
+
+        int matches = 0;
+        for (int i = 0; i < 26; i++) {
+            if (s1Map[i] == s2Map[i]) {
+                matches++;
+            }
+        }
+
+        System.out.println("Initial Matches - " + matches);
+        if (matches == 26) {
+            return true;
+        }
+
+        //adc in dcda
+        for (int i = 1; i <= s2.length() - s1.length(); i++) {
+            printArray(s2Map);
+
+            System.out.println("For new character In s1Map is " + s2.charAt(i - 1+ s1.length() ) + " is true ?");
+            if(s1Map[s2.charAt(i - 1+ s1.length()) - 97 ] == 1 && s2Map[s2.charAt(i - 1+ s1.length()) - 97 ] == 0) {
+                matches++;
+            } else {
+                matches--;
+            }
+            System.out.println("For leaving character - In s1Map is " + s2.charAt(i - 1) + " is true ?");
+            if(s1Map[s2.charAt(i - 1) - 97] == 1 && s2Map[s2.charAt(i - 1) - 97] == 0) {
+                matches--;
+            } else {
+                matches++;
+            }
+            if (matches == 26) {
+                return true;
+            }
+            s2Map[s2.charAt(i - 1) - 97] = 0;
+            s2Map[s2.charAt(i - 1 + s1.length()) - 97 ] = 1;
+            System.out.println("Matches - " + matches);
+        }
+        return false;
     }
 
     /**
@@ -317,4 +435,48 @@ public class BinarySearchLeetCodeProblems {
 
         return min;
     }
+
+    public int minEatingSpeed(int[] piles, int h) {
+        int min = 1;
+        int max = 1;
+        for (int i = 0; i < piles.length; i++) {
+            max = (max < piles[i]) ?  piles[i] : max;
+        }
+        int minimumPossible = max;
+
+        while (min <= max) {
+            int mid = (min + max) / 2 ;
+            if (timeTakenToFinish(piles, mid) > h) {
+                min = mid + 1;
+            } else {
+                minimumPossible = (minimumPossible > mid) ? mid : minimumPossible;
+                max = mid - 1;
+            }
+        }
+
+        return minimumPossible;
+    }
+
+    public long timeTakenToFinish(int[] piles, int speed) {
+        long total = 0l;
+        for (int i = 0; i < piles.length; i++) {
+            total += (piles[i] % speed == 0) ? (piles[i] / speed) : (piles[i] / speed)  + 1;
+        }
+        return total;
+    }
+
+    private void printArray(int[] arr) {
+        System.out.println();
+        for (int i = 0; i < arr.length ; i++) {
+            if (arr[i] >=  1) {
+                System.out.print((char) (i + 97));
+                System.out.print("(" + arr[i] + ")");
+            } else {
+                System.out.print(arr[i]);
+            }
+            System.out.print(",");
+        }
+        System.out.println();
+    }
+
 }
