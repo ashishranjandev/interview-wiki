@@ -113,7 +113,6 @@ public class BinarySearchLeetCodeProblems {
         System.out.print("Solution for Matrix [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3 is - " + answerBool);
 
 
-
         System.out.println();
         // Input: nums = [3,4,5,1,2]
         // Output: 1
@@ -156,10 +155,7 @@ public class BinarySearchLeetCodeProblems {
         binarySearchLeetCodeProblems.badVersion = 1;
         System.out.println("First bad version - " + binarySearchLeetCodeProblems.firstBadVersion(1));
 
-        System.out.println("");
-        //System.out.println(binarySearchLeetCodeProblems.checkInclusion("adc", "dcda"));
-        //System.out.println(binarySearchLeetCodeProblems.checkInclusion("ab", "eidbaooo"));
-        System.out.println(binarySearchLeetCodeProblems.checkInclusion("ab", "eidboaoo"));    }
+    }
 
 
     public int firstBadVersion(int n) {
@@ -205,55 +201,7 @@ public class BinarySearchLeetCodeProblems {
             return citations.length - left;
     }
 
-    public boolean checkInclusion(String s1, String s2) {
-        if (s2.length() < s1.length()) {
-            return false;
-        }
-        int[] s1Map = new int[26];
-        int[] s2Map = new int[26];
 
-        for (int i = 0; i < s1.length() ; i++) {
-            s1Map[s1.charAt(i) - 97]++;
-            s2Map[s2.charAt(i) - 97]++;
-        }
-
-        int matches = 0;
-        for (int i = 0; i < 26; i++) {
-            if (s1Map[i] == s2Map[i]) {
-                matches++;
-            }
-        }
-
-        System.out.println("Initial Matches - " + matches);
-        if (matches == 26) {
-            return true;
-        }
-
-        //adc in dcda
-        for (int i = 1; i <= s2.length() - s1.length(); i++) {
-            printArray(s2Map);
-
-            System.out.println("For new character In s1Map is " + s2.charAt(i - 1+ s1.length() ) + " is true ?");
-            if(s1Map[s2.charAt(i - 1+ s1.length()) - 97 ] == 1 && s2Map[s2.charAt(i - 1+ s1.length()) - 97 ] == 0) {
-                matches++;
-            } else {
-                matches--;
-            }
-            System.out.println("For leaving character - In s1Map is " + s2.charAt(i - 1) + " is true ?");
-            if(s1Map[s2.charAt(i - 1) - 97] == 1 && s2Map[s2.charAt(i - 1) - 97] == 0) {
-                matches--;
-            } else {
-                matches++;
-            }
-            if (matches == 26) {
-                return true;
-            }
-            s2Map[s2.charAt(i - 1) - 97] = 0;
-            s2Map[s2.charAt(i - 1 + s1.length()) - 97 ] = 1;
-            System.out.println("Matches - " + matches);
-        }
-        return false;
-    }
 
     /**
      * Searching in rotated array
@@ -465,18 +413,5 @@ public class BinarySearchLeetCodeProblems {
         return total;
     }
 
-    private void printArray(int[] arr) {
-        System.out.println();
-        for (int i = 0; i < arr.length ; i++) {
-            if (arr[i] >=  1) {
-                System.out.print((char) (i + 97));
-                System.out.print("(" + arr[i] + ")");
-            } else {
-                System.out.print(arr[i]);
-            }
-            System.out.print(",");
-        }
-        System.out.println();
-    }
 
 }
