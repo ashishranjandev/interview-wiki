@@ -198,4 +198,43 @@ public class StacksLeetcodeProblems {
         }
     }
 
+
+    /**
+     * If token is no operation i.e. one of [+, /, *, -]
+     *   Add every token as an integer in the stack
+     * Else if token is an opeartion
+     *   In that case, Pop two elements from the stack and then save the result back to it.
+     *
+     * After all operations are done through, the remaining element in the stack will be the result.
+     *
+     * @param tokens
+     * @return
+     */
+    public int evalRPN(String[] tokens) {
+        int a,b;
+        Stack<Integer> operationStack = new Stack<>();
+        for (String s : tokens) {
+            if(s.equals("+")) {
+                operationStack.add(operationStack.pop()+operationStack.pop());
+            }
+            else if(s.equals("/")) {
+                b = operationStack.pop();
+                a = operationStack.pop();
+                operationStack.add(a / b);
+            }
+            else if(s.equals("*")) {
+                operationStack.add(operationStack.pop() * operationStack.pop());
+            }
+            else if(s.equals("-")) {
+                b = operationStack.pop();
+                a = operationStack.pop();
+                operationStack.add(a - b);
+            }
+            else {
+                operationStack.add(Integer.parseInt(s));
+            }
+        }
+        return operationStack.pop();
+    }
+
 }
