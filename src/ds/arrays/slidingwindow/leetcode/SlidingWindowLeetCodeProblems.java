@@ -42,7 +42,6 @@ public class SlidingWindowLeetCodeProblems {
 
         //adc in dcda
         for (int i = 1; i <= s2.length() - s1.length(); i++) {
-            printArray(s2Map);
 
             System.out.println("For new character In s1Map is " + s2.charAt(i - 1+ s1.length() ) + " is true ?");
             if(s1Map[s2.charAt(i - 1+ s1.length()) - 97 ] == 1 && s2Map[s2.charAt(i - 1+ s1.length()) - 97 ] == 0) {
@@ -87,6 +86,8 @@ public class SlidingWindowLeetCodeProblems {
      * keep the info of max of left till index i
      * keep the info of max of right till index i
      *
+     * Create an array now to
+     *
      *
      *
      * @param height
@@ -94,31 +95,27 @@ public class SlidingWindowLeetCodeProblems {
      */
     public int trap(int[] height) {
         int sum = 0;
-        int maxLeftArr[] = new int[height.length];
-        int maxRightArr[] = new int[height.length];
+        int[] maxLeftArr = new int[height.length];
+        int[] maxRightArr = new int[height.length];
 
         int maxLeft = 0;
         int maxRight = 0;
         for (int i = 0; i < height.length; i++) {
-            maxLeftArr[i] = (maxLeft > height[i]) ? maxLeft : height[i];
-            maxRightArr[height.length ] = (maxRight > height[i]) ? maxRight : height[height.length - 1 - i];
+            maxLeftArr[i] = maxLeft = Math.max(maxLeft, height[i]);
+        }
 
-            maxLeft = (maxLeft > height[i]) ? maxLeft : height[i];
-            maxRight = (maxRight > height[i]) ? maxRight : height[height.length - 1 - i];
+        for (int i = height.length - 1; i >= 0; i--) {
+            maxRightArr[i] = maxRight = Math.max(maxRight, height[i]);
         }
 
         for (int i = 0; i < height.length; i++) {
-            int capacity = getMin(maxLeftArr[i], maxRightArr[i]) - height[i];
-            if (capacity >= 0 ) {
+            int capacity = Math.min(maxLeftArr[i], maxRightArr[i]) - height[i];
+            if (capacity > 0) {
                 sum += capacity;
             }
         }
 
         return sum;
-    }
-
-    private int getMin(int a, int b) {
-        return (a > b) ? b : a ;
     }
 
     /**
