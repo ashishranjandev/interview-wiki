@@ -169,9 +169,6 @@ public class BinaryTreeBasics {
         System.out.println("\nIterative DFS In order traversal of binary tree is ");
         tree.printIterativeInOrder(tree.root);
 
-        System.out.println("\nIterative DFS In order traversal of binary tree is ");
-        tree.printIterativePostOrder(tree.root);
-
         System.out.println("\nIterative DFS Post order traversal of binary tree 2 stack is ");
         tree.printIterativePostOrderUsingTwoStacks(tree.root);
         

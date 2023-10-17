@@ -23,6 +23,46 @@ public class LinkedListLeetCodeProblems {
         System.out.println(linkedListLeetCodeProblems.addTwoNumbers(nodeLinkedList1, nodeLinkedList2));
     }
 
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int lenA = 0;
+        int lenB = 0;
+
+        ListNode curr = headA;
+        while (curr != null) {
+            lenA++;
+            curr = curr.next;
+        }
+
+        curr = headB;
+        while (curr != null) {
+            lenB++;
+            curr = curr.next;
+        }
+
+        ListNode currA = headA;
+        ListNode currB = headB;
+
+        if (lenA > lenB) {
+            for (int i = 0; i < lenA - lenB; i++) {
+                currA = currA.next;
+            }
+        } else {
+            for (int i = 0; i < lenB - lenA; i++) {
+                currB = currB.next;
+            }
+        }
+
+        while (currA != null && currB != null) {
+            if (currA == currB) {
+                return currA;
+            }
+            currA = currA.next;
+            currB = currB.next;
+        }
+
+        return null;
+    }
+
     /**
      * Initialize two pointers, slow and fast, to the first element of the array nums.
      *

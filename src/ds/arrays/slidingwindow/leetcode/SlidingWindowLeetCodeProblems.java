@@ -1,5 +1,8 @@
 package ds.arrays.slidingwindow.leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SlidingWindowLeetCodeProblems {
     
     public static void main(String...args) {
@@ -14,6 +17,26 @@ public class SlidingWindowLeetCodeProblems {
 
         // characterReplacement - "ABAB" , 2 Output - 4
     }
+
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character, Integer> values = new HashMap<>();
+        int start = 0;
+        int end = 0;
+        int maxLength = 0;
+
+        while (end < s.length() - 1) {
+            if (values.containsKey(s.charAt(end))) {
+                start = values.get(s.charAt(end)) + 1;
+            } else {
+                values.put(s.charAt(end), end);
+            }
+            maxLength = Math.max(maxLength, end - start);
+            end = end + 1;
+        }
+
+        return maxLength;
+    }
+
 
 
     public boolean checkInclusion(String s1, String s2) {

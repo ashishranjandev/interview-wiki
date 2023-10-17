@@ -44,7 +44,6 @@ public class RecursionTask6Permutations {
 
     public List<List<Integer>> permute2(int[] nums) {
         List<List<Integer>> answer = new ArrayList<>();
-        boolean[] booleanArray = new boolean[nums.length];
         getPermutationsBySwapping(0, nums, answer);
         return answer;
     }
