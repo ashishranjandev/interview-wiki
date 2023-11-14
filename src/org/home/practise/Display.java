@@ -8,6 +8,7 @@ public class Display {
         //[1 2 3]
         //[4 5 6]
         //[7 8 9]
+        /*
         int[][] nums2 = new int[3][3];
         int[][] nums = {{1,2,3}, {4,5,6}, {7,8,9}};
 
@@ -28,6 +29,107 @@ public class Display {
         printSumOfFirstColumn();
 
         printSumOfRightDiagonal();
+        */
+        //printFrequencyAndSumOfEvenDigits();
+
+        //printFirstLetterOfEveryWord();
+
+        //printIncomeTax();
+        //a quick fox jumped over a lazy dog
+        printLongestWord();
+    }
+
+    public static void printLongestWord() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the Sentence");
+        String sentence = scanner.nextLine();
+
+        String longestWord = sentence.substring(0, sentence.indexOf(' '));
+        int startOfWord = 0;
+        for (int i = 1; i < sentence.length(); i++) {
+            if (sentence.charAt(i) == ' ') {
+                int endOfWord = i - 1;
+                int lengthOfCurrentWord = endOfWord - startOfWord + 1;
+                if (lengthOfCurrentWord > longestWord.length()) {
+                    longestWord = sentence.substring(startOfWord, endOfWord + 1);
+                }
+                startOfWord = i + 1;
+            }
+            if (i == sentence.length() - 1) {
+                int endOfWord = i;
+                int lengthOfCurrentWord = endOfWord - startOfWord + 1;
+                if (lengthOfCurrentWord > longestWord.length()) {
+                    longestWord = sentence.substring(startOfWord, endOfWord + 1);
+                }
+            }
+        }
+        System.out.println("Longest word is "+ longestWord);
+    }
+
+
+    public static void printIncomeTax() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the employee Name");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter the employee annual gross income");
+        double salary = scanner.nextDouble();
+
+        double incomeTax;
+        if (salary <= 100000) {
+            incomeTax = 0.0;
+        } else if (salary > 100000 && salary <= 500000) {
+            incomeTax = 1000 + ((salary - 100000) / 10);
+        } else if (salary > 500000 && salary <= 800000) {
+            incomeTax = 5000 + ((salary - 500000) / 5);
+        } else {
+            incomeTax = 10000 + (((salary - 800000) * 30) / 100);
+        }
+
+        System.out.println("Employee Name - " + name);
+        System.out.println("Total Income tax - " + incomeTax);
+    }
+
+    public static void printFrequencyAndSumOfEvenDigits() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the number");
+        int number = scanner.nextInt();
+        int temp = number;
+
+        System.out.println("Enter the digit for getting the frequency");
+        int digit = scanner.nextInt();
+
+        int frequency = 0;
+        int sumOfEvenDigits = 0;
+        while (temp != 0) {
+            int currentDigit = temp % 10;
+            if (currentDigit == digit) {
+                frequency++;
+            }
+            if (currentDigit % 2 == 0) {
+                sumOfEvenDigits = sumOfEvenDigits + currentDigit;
+            }
+            temp = temp / 10;
+        }
+
+        System.out.println(" Frequency of Digit is " + frequency);
+        System.out.println(" Sum of Even Digits is " + sumOfEvenDigits);
+    }
+
+    public static void printFirstLetterOfEveryWord() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the sentence");
+        String sentence = scanner.nextLine();
+        sentence = sentence.toUpperCase();
+        System.out.println(sentence);
+
+        int length = sentence.length();
+        System.out.print(sentence.charAt(0));
+        for (int i = 0; i < length ; i++) {
+            if (sentence.charAt(i) == ' ' && i != length - 1) {
+                System.out.print("." + sentence.charAt(i + 1));
+            }
+        }
     }
 
     public static void stringDemo() {
