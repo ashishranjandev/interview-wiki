@@ -150,6 +150,182 @@ public class GraphsLeetCodeProblems {
         System.out.println("Expected output is [0]");
         System.out.println("Actual output is " + Arrays.toString(graphsLeetCodeProblems.findOrder(numberOfCourses,
                                                                                                 prerequisites)));
+
+        int[][] edges = new int[][]{{1,2},{1,3},{2,3}};
+        System.out.println();
+        System.out.println("Input is ");
+        System.out.println("Edges are ");
+        System.out.println("Edges are {1, 2}");
+        System.out.println("Edges are {1, 3}");
+        System.out.println("Edges are {2, 3}");
+        System.out.println("Expected output is {2, 3}");
+        System.out.println("Actual output is " + Arrays.toString(graphsLeetCodeProblems.findRedundantConnection(edges)));
+
+        edges = new int[][]{{1,2},{2,3},{3,4},{1,4},{1,5}};
+        System.out.println();
+        System.out.println("Input is ");
+        System.out.println("Edges are ");
+        System.out.println("Edges are {1, 2}");
+        System.out.println("Edges are {2, 3}");
+        System.out.println("Edges are {3, 4}");
+        System.out.println("Edges are {1, 4}");
+        System.out.println("Edges are {1, 5}");
+        System.out.println("Expected output is {1, 4}");
+        System.out.println("Actual output is " + Arrays.toString(graphsLeetCodeProblems.findRedundantConnection(edges)));
+
+        GraphNode node1 = new GraphNode(1);
+        GraphNode node2 = new GraphNode(2);
+        GraphNode node3 = new GraphNode(3);
+        GraphNode node4 = new GraphNode(4);
+        System.out.println();
+        System.out.println("Input is 1, 2, 3, 4");
+        System.out.println("Edges are ");
+        System.out.println("Edges are {1, 2}");
+        System.out.println("Edges are {2, 3}");
+        System.out.println("Edges are {3, 4}");
+        System.out.println("Edges are {1, 4}");
+        GraphNode cloneGraph = graphsLeetCodeProblems.cloneGraph(node1);
+        System.out.println(cloneGraph.val);
+        System.out.println(cloneGraph.neighbors);
+
+        System.out.println();
+        System.out.println("beginWord = \"hit\"");
+        System.out.println("endWord = \"cog\"");
+        System.out.println("Input word list is [\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]");
+        System.out.println("Expected output is 5");
+        System.out.println("Actual output is " + graphsLeetCodeProblems.ladderLength("hit", "cog", Arrays.asList(
+                new String[]{"hot", "dot", "dog", "lot", "log", "cog"})));
+
+        System.out.println();
+        System.out.println("beginWord = \"hit\"");
+        System.out.println("endWord = \"cog\"");
+        System.out.println("Input word list is [\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]");
+        System.out.println("Expected output is 0");
+        System.out.println("Actual output is " + graphsLeetCodeProblems.ladderLength("hit", "cog", Arrays.asList(
+                new String[]{"hot","dot","dog","lot","log"})));
+
+        System.out.println();
+        System.out.println("beginWord = \"hot\"");
+        System.out.println("endWord = \"dog\"");
+        System.out.println("Input word list is [\"hot\",\"dog\"]");
+        System.out.println("Expected output is 0");
+        System.out.println("Actual output is " + graphsLeetCodeProblems.ladderLength("hot", "dog", Arrays.asList(
+                new String[]{"hot","dog"})));
+
+        System.out.println();
+        System.out.println("beginWord = \"hit\"");
+        System.out.println("endWord = \"cog\"");
+        System.out.println("Input word list is [\"hot\",\"cog\",\"dot\",\"dog\",\"hit\",\"lot\",\"log\"]");
+        System.out.println("Expected output is 5");
+        System.out.println("Actual output is " + graphsLeetCodeProblems.ladderLength("hit", "cog", Arrays.asList(
+                new String[]{"hot","cog","dot","dog","hit","lot","log"})));
+
+        System.out.println();
+        System.out.println("beginWord = \"a\"");
+        System.out.println("endWord = \"c\"");
+        System.out.println("Input word list is [\"a\",\"b\",\"c\"]");
+        System.out.println("Expected output is 2");
+        System.out.println("Actual output is " + graphsLeetCodeProblems.ladderLength("a", "b", Arrays.asList(
+                new String[]{"a","b","c"})));
+    }
+
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Map<String, List<String>> adjacenyList = new HashMap<>();
+        String wordToStart = null;
+        for (String word : wordList) {
+            adjacenyList.put(word, new ArrayList<>());
+            for (String wordToCheck : wordList) {
+                if (!wordToCheck.equals(word) && areNeighbours(word, wordToCheck)) {
+                    List<String> neighbours = adjacenyList.get(word);
+                    neighbours.add(wordToCheck);
+                    adjacenyList.put(word, neighbours);
+                }
+            }
+            if (areNeighbours(word, beginWord) && !beginWord.equals(wordToStart)) {
+                wordToStart = word;
+            }
+        }
+        System.out.println("Start word " + wordToStart);
+        System.out.println("Adjancy list "+ adjacenyList);
+
+        int result = beginWord.equals(wordToStart) ? 0 : 1;
+        Set<String> visited = new HashSet<>();
+        Queue<String> bfsQueue = new LinkedList<>();
+        bfsQueue.add(wordToStart);
+        visited.add(wordToStart);
+
+        while (!bfsQueue.isEmpty()) {
+            result++;
+            int queueLength = bfsQueue.size();
+            for (int i = 0; i < queueLength; i++) {
+                String word = bfsQueue.poll();
+                if (endWord.equals(word)) {
+                    return result;
+                }
+                visited.add(word);
+                for (String neighbour : adjacenyList.get(word)) {
+                    if (!visited.contains(neighbour)) {
+                        bfsQueue.add(neighbour);
+                    }
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    private boolean areNeighbours(String word1, String word2) {
+        int difference = 0;
+        for (int index = 0; index < word1.length(); index++) {
+            if (word1.charAt(index) != word2.charAt(index)) {
+                difference++;
+            }
+        }
+        return (difference <= 1);
+    }
+
+    public int[] findRedundantConnection(int[][] edges) {
+        int[] parents = new int[edges.length + 1];
+        int[] ranks = new int[edges.length + 1];
+
+        for (int i = 0; i < edges.length; i++) {
+            parents[i] = i;
+            ranks[i] = 1;
+        }
+
+        for (int[] edge : edges) {
+            if (!union(edge[0], edge[1], parents, ranks)) {
+                return edge;
+            }
+        }
+        return new int[]{};
+    }
+
+    private int find(int n, int[] parents) {
+        int parentOfN = parents[n];
+        while (parentOfN != parents[parentOfN]) {
+            parents[parentOfN] = parents[parents[parentOfN]];
+            parentOfN = parents[parentOfN];
+        }
+        return parentOfN;
+    }
+
+    // return false if we cannot complete the union
+    private boolean union(int n1, int n2, int[] parents, int[] ranks) {
+        int parent1 = find(n1, parents);
+        int parent2 = find(n2, parents);
+
+        if (parent1 == parent2) {
+            return false;
+        }
+        if (ranks[parent1] > ranks[parent2]) {
+            parents[parent2] = parent1;
+            ranks[parent1] += ranks[parent2];
+        } else {
+            parents[parent1] = parent2;
+            ranks[parent2] += ranks[parent1];
+        }
+        return true;
     }
 
     public int[] findOrder(int numCourses, int[][] prerequisites) {
@@ -252,7 +428,52 @@ public class GraphsLeetCodeProblems {
 
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
         List<List<Integer>> answer = new ArrayList<>();
+        int totalRows = heights.length;
+        int totalColumns = heights[0].length;
+
+        Set<Node> pacific = new HashSet<>();
+        Set<Node> atlantic = new HashSet<>();
+
+        //
+        for (int col = 0; col < totalColumns; col++) {
+            dfsForOcean(0, col, heights[0][col], pacific, heights);
+            dfsForOcean(totalRows - 1, col, heights[totalRows - 1][col], atlantic, heights);
+        }
+
+        for (int row = 0; row < totalRows; row++) {
+            dfsForOcean(row, 0, heights[row][0], pacific, heights);
+            dfsForOcean(row, totalColumns - 1, heights[row][totalColumns - 1], atlantic, heights);
+        }
+
+        for (int row = 0; row < totalRows; row++) {
+            for (int col = 0; col < totalColumns; col++) {
+                Node newNode = new Node(row, col);
+                if (pacific.contains(newNode) && atlantic.contains(newNode)) {
+                    answer.add(getNodeAsArray(row, col));
+                }
+            }
+        }
+
         return answer;
+    }
+
+    private List<Integer> getNodeAsArray(int row, int col) {
+        List<Integer> nodeAsArray = new ArrayList<>(2);
+        nodeAsArray.add(row);
+        nodeAsArray.add(col);
+        return nodeAsArray;
+    }
+
+    private void dfsForOcean(int row, int col, int prevHeight, Set<Node> visitedSet, int[][] heights) {
+        if (visitedSet.contains(new Node(row, col)) || row < 0 || row >= heights.length || col < 0 ||
+                col >= heights[0].length || heights[row][col] < prevHeight) {
+            return;
+        }
+        visitedSet.add(new Node(row, col));
+        dfsForOcean(row + 1, col, heights[row][col], visitedSet, heights);
+        dfsForOcean(row - 1, col, heights[row][col], visitedSet, heights);
+        dfsForOcean(row, col + 1, heights[row][col], visitedSet, heights);
+        dfsForOcean(row, col - 1, heights[row][col], visitedSet, heights);
     }
 
     /**
@@ -439,6 +660,55 @@ public class GraphsLeetCodeProblems {
                     bfsForNumOfIslands(nextNode.row, nextNode.col, grid, visitedNodes);
                 }
             }
+        }
+    }
+
+    public GraphNode cloneGraph(GraphNode node) {
+        Map<GraphNode, GraphNode> oldNewMapping = new HashMap<>();
+        dfsToCloneGraph(node, oldNewMapping);
+
+        return oldNewMapping.get(node);
+    }
+
+    private GraphNode dfsToCloneGraph(GraphNode node, Map<GraphNode, GraphNode> oldNewMapping) {
+        if (oldNewMapping.containsKey(node)) {
+            return oldNewMapping.get(node);
+        }
+        if (node == null) {
+            return null;
+        }
+        GraphNode newNode = new GraphNode(node.val);
+        oldNewMapping.put(node, newNode);
+        for (GraphNode neighbour : node.neighbors) {
+            if (neighbour != null) {
+                if (oldNewMapping.containsKey(neighbour)) {
+                    newNode.neighbors.add(oldNewMapping.get(neighbour));
+                } else {
+                    newNode.neighbors.add(dfsToCloneGraph(neighbour, oldNewMapping));
+                }
+            }
+        }
+
+        return newNode;
+    }
+
+    static class GraphNode {
+        public int val;
+        public List<GraphNode> neighbors;
+
+        public GraphNode() {
+            val = 0;
+            neighbors = new ArrayList<>();
+        }
+
+        public GraphNode(int _val) {
+            val = _val;
+            neighbors = new ArrayList<>();
+        }
+
+        public GraphNode(int _val, List<GraphNode> _neighbors) {
+            val = _val;
+            neighbors = _neighbors;
         }
     }
 
