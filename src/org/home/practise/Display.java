@@ -36,8 +36,64 @@ public class Display {
 
         //printIncomeTax();
         //a quick fox jumped over a lazy dog
-        printLongestWord();
+        //printLongestWord();
+
+        int i = 3;
+        float f = 0.5f;
+        System.out.println(i + f);
+
+        int m = 10;
+        int n = 6;
+        m -= 9 %++n  + ++n/2;
+        System.out.println(m);
+
+        ifUniqueWord();
     }
+
+    public static void printReverseOfEveryWord() {
+        String inputString = "I love my computers";
+        int len, i, len1;
+        len = inputString.length();
+        int startIndex = 0;
+
+        for (i = 0; i < len; i++) {
+            char ch = inputString.charAt(i);
+            if (ch == ' ') {
+                String word = inputString.substring(startIndex, i);
+                for (int k = word.length() - 1; k >= 0; k--) {
+                    System.out.print(word.charAt(k));
+                }
+                System.out.print(' ');
+                startIndex = i + 1;
+            }
+        }
+
+        String lastWord = inputString.substring(startIndex);
+        for (int k = lastWord.length() - 1; k >= 0; k--) {
+            System.out.print(lastWord.charAt(k));
+        }
+    }
+
+    public static void ifUniqueWord() {
+        String inputString = "COMPUTERS";
+        int length = inputString.length();
+
+        int duplicateExists = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = i + 1; j < length; j++) {
+                if (inputString.charAt(j) == inputString.charAt(i)) {
+                    duplicateExists = 1;
+                }
+            }
+        }
+
+        if (duplicateExists == 0) {
+            System.out.println("Unique Word");
+        } else {
+            System.out.println("Not a unique word");
+        }
+    }
+
 
     public static void printLongestWord() {
         Scanner scanner = new Scanner(System.in);
