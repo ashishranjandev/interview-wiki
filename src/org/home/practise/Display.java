@@ -1,10 +1,32 @@
 package org.home.practise;
 
+import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class Display {
 
     public static void main (String[] args) {
+        System.out.println(getMidnightTimeInMilliSecondsBeforeSpecificDays(3));
+        System.out.println(getMidnightTimeInMilliSecondsBeforeSpecificDays(2));
+
+        String keyStorePath = System.getProperty("javax.net.ssl.keyStore");
+        System.out.println("KeyStore Path: " + keyStorePath);
+
+        System.out.println(Base64.getDecoder().decode("ZmRmODBlZmMtYTNkOC0xNmE5LTA5MzItZmI3NjIwMGRmYjIx"));
+
+        for (int i = 3; i <=4; i++) {
+            for (int j = 2; j < i; j++) {
+                System.out.print(" ");
+            }
+            System.out.println("WIN");
+        }
+
+        char P = '2', Q = '1';
+        System.out.println(P + Q);
+
         //[1 2 3]
         //[4 5 6]
         //[7 8 9]
@@ -47,7 +69,108 @@ public class Display {
         m -= 9 %++n  + ++n/2;
         System.out.println(m);
 
-        ifUniqueWord();
+        //ifUniqueWord();
+
+        //printPigLatin();
+    }
+
+    public static long getTodayMidnightTimeInMilliSeconds() {
+        Calendar date = new GregorianCalendar();
+        // reset hour, minutes, seconds and millis
+        date.set(Calendar.HOUR_OF_DAY, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.SECOND, 0);
+        date.set(Calendar.MILLISECOND, 0);
+
+        return date.getTimeInMillis();
+    }
+
+    /**
+     * Get time before specific number of days
+     * @param days
+     * @return
+     */
+    public static Date getTimeInMilliSecondsBeforeSpecificDays(int days) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.add(Calendar.DAY_OF_MONTH, -days);
+        return calendar.getTime();
+    }
+    /**
+     * Get Yesterday's Midnight time in Milli Seconds
+     *
+     * @return
+     */
+    public static long getYesterdayMidnightTimeInMilliSeconds() {
+        Calendar date = new GregorianCalendar();
+        // reset hour, minutes, seconds and millis
+        date.set(Calendar.HOUR_OF_DAY, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.SECOND, 0);
+        date.set(Calendar.MILLISECOND, 0);
+        date.add(Calendar.DATE, -1);
+
+        return date.getTimeInMillis();
+    }
+
+    /**
+     * Get Yesterday's Midnight time in Milli Seconds
+     *
+     * @return
+     */
+    public static long getMidnightTimeInMilliSecondsBeforeSpecificDays(int days) {
+        Calendar date = new GregorianCalendar();
+        // reset hour, minutes, seconds and millis
+        date.set(Calendar.HOUR_OF_DAY, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.SECOND, 0);
+        date.set(Calendar.MILLISECOND, 0);
+        date.add(Calendar.DATE, -days);
+
+        return date.getTimeInMillis();
+    }
+
+    public static void printPigLatin() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a word: ");
+        String word = scanner.nextLine();
+
+        int x = 0;
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if (c == 'A' || c == 'a' || c == 'E' || c == 'e' || c == 'I' || c == 'i' || c == 'O' || c == 'o' || c == 'U' ||
+                    c == 'u') {
+                x = i;
+                break;
+            }
+        }
+
+        System.out.print(word.substring(x));
+        System.out.println(word.substring(0, x) + "AY");
+    }
+
+
+    public static void printPallindroneWords() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a sentence: ");
+        String sentence = scanner.nextLine();
+        sentence = sentence + " ";
+        int len = sentence.length();
+        int start = 0;
+        String word = "";
+        for (int i = 0; i < len; i++) {
+            char ch = sentence.charAt(i);
+            if (ch == ' ') {
+                String rev = "";
+                word = sentence.substring(start, i);
+                for (int j = word.length() - 1; j >= 0; j--) {
+                    rev = rev + word.charAt(j);
+                }
+                if (rev.equals(word)) {
+                    System.out.println("Palindrome: " + word);
+                }
+                start = i + 1;
+            }
+        }
     }
 
     public static void printReverseOfEveryWord() {
@@ -121,6 +244,8 @@ public class Display {
         }
         System.out.println("Longest word is "+ longestWord);
     }
+
+
 
 
     public static void printIncomeTax() {
