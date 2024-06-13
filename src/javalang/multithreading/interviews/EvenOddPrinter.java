@@ -18,7 +18,7 @@ public class EvenOddPrinter {
         public void run() {
             for (int i = 2; i <= MAX; i += 2) {
                 synchronized (lock) {
-                    while (!isEven) {
+                    while (isEven) {
                         try {
                             lock.wait();
                         } catch (InterruptedException e) {
@@ -26,7 +26,7 @@ public class EvenOddPrinter {
                         }
                     }
                     System.out.println("Thread 1: " + i);
-                    isEven = false;
+                    isEven = true;
                     lock.notify();
                 }
             }
@@ -38,7 +38,7 @@ public class EvenOddPrinter {
         public void run() {
             for (int i = 1; i <= MAX; i += 2) {
                 synchronized (lock) {
-                    while (isEven) {
+                    while (!isEven) {
                         try {
                             lock.wait();
                         } catch (InterruptedException e) {
@@ -46,7 +46,7 @@ public class EvenOddPrinter {
                         }
                     }
                     System.out.println("Thread 2: " + i);
-                    isEven = true;
+                    isEven = false;
                     lock.notify();
                 }
             }
