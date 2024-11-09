@@ -462,4 +462,28 @@ public class LinkedList {
         return null;
     }
 
+    static class ListNode {
+        int val;
+        ListNode next;
+        ListNode random;
+
+        ListNode(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+    }
+
+    static class Node {
+        int val;
+        Node next;
+        Node random;
+
+        Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+    }
+
 }

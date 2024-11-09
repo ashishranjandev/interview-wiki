@@ -1,4 +1,4 @@
-package algo.backtracking.leetcode150.workbook;
+package workbook.algo;
 
 import java.util.Arrays;
 import java.util.List;

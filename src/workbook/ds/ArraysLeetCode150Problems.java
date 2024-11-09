@@ -1,13 +1,7 @@
-package ds.arrays.leetcode150;
+package workbook.ds;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Set;
 
 public class ArraysLeetCode150Problems {
     public static void main(String[] args) {
@@ -212,8 +206,8 @@ public class ArraysLeetCode150Problems {
         int expectedBoolOutput4 = 7;
         int actualBoolOutput4 = longestConsecutive(nums2);
         System.out.println("Problem 2 - Test Case 2");
-        System.out.println("Expected Output: " + expectedOutput4);
-        System.out.println("Actual Output: " + actualOutput4);
+        System.out.println("Expected Output: " + expectedBoolOutput4);
+        System.out.println("Actual Output: " + actualBoolOutput4);
         System.out.println();
     }
 
@@ -239,13 +233,6 @@ public class ArraysLeetCode150Problems {
      * @return
      */
     public static boolean containsDuplicate(int[] nums) {
-        Set<Integer> seen = new HashSet<>();
-        for (int num : nums) {
-            if (seen.contains(num)) {
-                return true;
-            }
-            seen.add(num);
-        }
         return false;
     }
 
@@ -274,18 +261,6 @@ public class ArraysLeetCode150Problems {
      * @return
      */
     public static boolean isAnagram(String s, String t) {
-        if (s.length() != t.length()) {
-            return false;
-        }
-        int[] count = new int[26];
-        for (char c : s.toCharArray()) {
-            count[c - 'a']++;
-        }
-        for (char c : t.toCharArray()) {
-            if (--count[c - 'a'] < 0) {
-                return false;
-            }
-        }
         return true;
     }
 
@@ -324,14 +299,6 @@ public class ArraysLeetCode150Problems {
      * @return
      */
     public static int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int complement = target - nums[i];
-            if (map.containsKey(complement)) {
-                return new int[]{map.get(complement), i};
-            }
-            map.put(nums[i], i);
-        }
         throw new IllegalArgumentException("No two sum solution");
     }
 
@@ -363,17 +330,7 @@ public class ArraysLeetCode150Problems {
      * @return
      */
     public static List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> map = new HashMap<>();
-        for (String str : strs) {
-            char[] chars = str.toCharArray();
-            Arrays.sort(chars);
-            String key = new String(chars);
-            if (!map.containsKey(key)) {
-                map.put(key, new ArrayList<>());
-            }
-            map.get(key).add(str);
-        }
-        return new ArrayList<>(map.values());
+        return null;
     }
 
     // Problem 5: Top K Elements in List
@@ -401,19 +358,7 @@ public class ArraysLeetCode150Problems {
      * @return
      */
     public static int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> countMap = new HashMap<>();
-        for (int num : nums) {
-            countMap.put(num, countMap.getOrDefault(num, 0) + 1);
-        }
-        PriorityQueue<Map.Entry<Integer, Integer>> heap = new PriorityQueue<>(
-                (a, b) -> b.getValue() - a.getValue()
-        );
-        heap.addAll(countMap.entrySet());
-        int[] result = new int[k];
-        for (int i = 0; i < k; i++) {
-            result[i] = heap.poll().getKey();
-        }
-        return result;
+        return new int[2];
     }
 
     // Problem 6: String Encode and Decode
@@ -440,24 +385,13 @@ public class ArraysLeetCode150Problems {
      * @return
      */
     public static String encode(List<String> strs) {
-        StringBuilder encoded = new StringBuilder();
-        for (String str : strs) {
-            encoded.append(str.length()).append('/').append(str);
-        }
-        return encoded.toString();
+        return null;
     }
 
 
     public static List<String> decode(String s) {
-        List<String> decoded = new ArrayList<>();
-        int i = 0;
-        while (i < s.length()) {
-            int slash = s.indexOf('/', i);
-            int length = Integer.parseInt(s.substring(i, slash));
-            decoded.add(s.substring(slash + 1, slash + 1 + length));
-            i = slash + 1 + length;
-        }
-        return decoded;
+
+        return null;
     }
 
     // Problem 7: Product of Array Except Self
@@ -491,17 +425,7 @@ public class ArraysLeetCode150Problems {
      * @return
      */
     public static int[] productExceptSelf(int[] nums) {
-        int n = nums.length;
-        int[] output = new int[n];
-        Arrays.fill(output, 1);
-        int left = 1, right = 1;
-        for (int i = 0; i < n; i++) {
-            output[i] *= left;
-            left *= nums[i];
-            output[n - 1 - i] *= right;
-            right *= nums[n - 1 - i];
-        }
-        return output;
+        return new int[2];
     }
 
     // Problem 8: Valid Sudoku
@@ -552,19 +476,6 @@ public class ArraysLeetCode150Problems {
      * @return
      */
     public static boolean isValidSudoku(char[][] board) {
-        Set<String> seen = new HashSet<>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                char number = board[i][j];
-                if (number != '.') {
-                    if (!seen.add(number + " in row " + i) ||
-                            !seen.add(number + " in column " + j) ||
-                            !seen.add(number + " in block " + i / 3 + "-" + j / 3)) {
-                        return false;
-                    }
-                }
-            }
-        }
         return true;
     }
 
@@ -595,27 +506,6 @@ public class ArraysLeetCode150Problems {
      * @return
      */
     public static int longestConsecutive(int[] nums) {
-        Set<Integer> numSet = new HashSet<>();
-        for (int num : nums) {
-            numSet.add(num);
-        }
-
-        int longestStreak = 0;
-
-        for (int num : numSet) {
-            if (!numSet.contains(num - 1)) {
-                int currentNum = num;
-                int currentStreak = 1;
-
-                while (numSet.contains(currentNum + 1)) {
-                    currentNum += 1;
-                    currentStreak += 1;
-                }
-
-                longestStreak = Math.max(longestStreak, currentStreak);
-            }
-        }
-
-        return longestStreak;
+        return -1;
     }
 }
